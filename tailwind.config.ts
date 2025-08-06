@@ -92,6 +92,10 @@ const config: Config = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      fontFamily: {
+        sans: ['var(--font-geist-sans)', 'system-ui', 'Arial', 'sans-serif'],
+        heading: ['var(--font-heading)', 'var(--font-geist-sans)'],
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],
