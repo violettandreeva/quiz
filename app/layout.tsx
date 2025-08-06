@@ -2,6 +2,14 @@ import type { Metadata } from 'next'
 import { GeistSans } from 'geist/font/sans'
 import { GeistMono } from 'geist/font/mono'
 import './globals.css'
+import { IBM_Plex_Sans } from "next/font/google"
+
+const plex = IBM_Plex_Sans({
+  subsets: ["latin", "cyrillic"],
+  weight: ["600", "700"],
+  display: "swap",
+  variable: "--font-heading",
+})
 
 export const metadata: Metadata = {
   title: 'v0 App',
@@ -10,12 +18,12 @@ export const metadata: Metadata = {
 }
 
 export default function RootLayout({
-  children,
+children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${GeistSans.variable} ${plex.variable}`}>
       <head>
         <style>{`
 html {
@@ -25,7 +33,7 @@ html {
 }
         `}</style>
       </head>
-      <body>{children}</body>
+      <body className="font-sans antialiased">{children}</body>
     </html>
   )
 }
