@@ -5,9 +5,36 @@ import * as React from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Heart, Leaf, Users, Clock, Shield, Gift, CheckCircle2, Lock, ShieldCheck, Check, HeartPulse, TrendingUp, Wallet, ThumbsUp, BookOpen, CalendarCheck, Lightbulb, Target, Sparkles, Mail, MessageSquare, Loader2, Edit3, Timer } from "lucide-react"
+import { Heart, Leaf, Users, Clock, Shield, Gift, CheckCircle2, Lock, ShieldCheck, Check, HeartPulse, TrendingUp, ThumbsUp, BookOpen, CalendarCheck, Lightbulb, Target, Sparkles, MessageSquare, Loader2, Edit3, Timer, Mail } from "lucide-react"
 import Image from "next/image"
 import { IMaskInput } from 'react-imask';
+
+function QuizHeader() {
+  return (
+    // Этот div теперь имеет меньше отступов и выравнивает всё по левому краю
+    // py-2 -> маленький отступ сверху/снизу (padding-top и padding-bottom)
+    // px-4 -> небольшой отступ по бокам, чтобы текст не прилипал к краю экрана
+    <div className="py-2 px-4">
+      {/* justify-start -> прижать к левому краю (раньше было justify-center)
+        gap-1.5 -> уменьшили зазор между иконкой и текстом
+      */}
+      <div className="flex items-center justify-start gap-1.5">
+        {/* w-6 h-6 -> сделали иконку-сердечко меньше (width и height) */}
+        <Heart className="w-6 h-6 text-green-600" />
+        {/* text-xl -> сделали текст "NaturalSlim" меньше (размер шрифта) */}
+        <span className="text-xl font-bold text-gray-800">NaturalSlim</span>
+      </div>
+    </div>
+  );
+}
+
+function ScrollFade() {
+  return (
+    <div
+      className="fixed bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white to-transparent pointer-events-none z-10"
+    />
+  );
+}
 
 // Превью 14-дневного плана с замком
 function PlanPreviewLocked() {
@@ -25,8 +52,7 @@ function PlanPreviewLocked() {
           <span>Разблокируется после ответов</span>
         </div>
 
-        {/* содержимое «экрана» (будет размыто) */}
-        <div className="relative p-4 sm:p-5 blur-[1.6px] select-none pointer-events-none">
+        <div className="relative p-4 sm:p-5 blur-sm select-none pointer-events-none">
           {/* мини-меню */}
           <div className="mb-4 flex gap-2">
             <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700">
@@ -46,7 +72,7 @@ function PlanPreviewLocked() {
             {[
               "Завтрак: 20–30 г белка (омлет/греческий йогурт)",
               "10–15 минут прогулки после обеда",
-              "Сон: цель 7–8 часов, без гаджетов за 60 мин",
+              "Сон: цель 7–8 часов, без гаджетов за 60 мин", // <-- ВОТ ЭТОТ ПУНКТ МЫ ВЕРНУЛИ
             ].map((t, i) => (
               <div key={i} className="flex items-start gap-2 rounded-lg border border-gray-100 bg-gray-50 p-3">
                 <CheckCircle2 className="h-4 w-4 text-gray-400" />
@@ -55,24 +81,8 @@ function PlanPreviewLocked() {
             ))}
           </div>
 
-          {/* блок «Сегодня: 3 шага» */}
-          <div className="mt-4 rounded-xl border border-gray-100 bg-white p-3">
-            <div className="mb-2 text-[13px] font-semibold text-gray-800">Сегодня: 3 шага</div>
-            <ul className="space-y-2 text-[13px] text-gray-700">
-              <li className="flex items-center gap-2">
-                <div className="h-5 w-5 rounded-full bg-emerald-100" />
-                Выпейте 500 мл воды после пробуждения
-              </li>
-              <li className="flex items-center gap-2">
-                <div className="h-5 w-5 rounded-full bg-amber-100" />
-                15 минут быстрой ходьбы
-              </li>
-              <li className="flex items-center gap-2">
-                <div className="h-5 w-5 rounded-full bg-sky-100" />
-                План на ужин: белок + овощи, без сладкого
-              </li>
-            </ul>
-          </div>
+          {/* БЛОК «СЕГОДНЯ: 3 ШАГА» ПО-ПРЕЖНЕМУ УДАЛЁН */}
+
         </div>
 
         {/* лёгкая «вуаль» для усиления эффекта замка */}
@@ -354,9 +364,8 @@ function LoadingPage({ onComplete }: LoadingPageProps) {
           />
         ))}
       </div>
-      <div className="absolute top-8 left-1/2 -translate-x-1/2 flex items-center gap-2">
-        <Heart className="w-8 h-8 text-green-600" />
-        <span className="text-2xl font-bold text-gray-800">NaturalSlim</span>
+      <div className="absolute top-0 left-0 right-0">
+        <QuizHeader />
       </div>
       <div className="min-h-screen flex items-center justify-center p-4">
         <div className="w-full max-w-sm bg-white/70 backdrop-blur-sm rounded-2xl shadow-lg p-6 sm:p-8">
@@ -1027,44 +1036,41 @@ function LandingPage({ setCurrentStep }) {
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         {/* ИЗМЕНЕНИЕ: Уменьшили отступ с py-8 до py-4 */}
-        <div className="text-center py-4">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <Heart className="w-8 h-8 text-green-600" />
-            <span className="text-2xl font-bold text-gray-800">NaturalSlim</span>
-          </div>
-        </div>
+        <QuizHeader />
 
         {/* Hero Section */}
         <Card className="mb-8 border-0 shadow-lg bg-white/80 backdrop-blur">
           <CardContent className="p-6 sm:p-8 text-center">
-            <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 leading-tight mb-4">
+            <h1 className="text-2xl sm:text-4xl font-bold text-gray-800 leading-tight mb-4">
               Узнайте свой путь к фигуре мечты за 10 вопросов
             </h1>
             <p className="text-base sm:text-lg text-green-700 font-semibold mb-6">
               Мини-меню + привычки под ваш режим. Отправим сразу в WhatsApp — бесплатно.
             </p>
-            <div className="bg-green-50 rounded-lg p-6 mb-6">
-              <p className="text-gray-700 text-base sm:text-lg leading-relaxed">
+            <div className="bg-green-50 rounded-lg p-4 mb-6"> {/* Отступ был p-6, стал p-4 */}
+              <p className="text-gray-700 text-sm sm:text-base"> {/* Размер текста был text-base, стал text-sm. Также убран leading-relaxed. */}
                 Получите персонализированный план без строгих диет, включающий рекомендации по питанию и натуральные добавки для достижения вашей цели.
               </p>
             </div>
-            <div className="grid md:grid-cols-3 gap-4 mb-8">
+            <div className="grid md:grid-cols-3 gap-4 mb-6">
               <div className="flex items-center gap-3 bg-white p-3 sm:p-4 rounded-lg shadow-sm">
-                <Clock className="w-5 h-5 sm:w-6 sm:h-6 text-green-600" />
-                <span className="text-gray-700 text-sm sm:text-base">Менее 5 минут</span>
+                {/* Иконка стала чуть меньше, убрали sm:w-6 sm:h-6 */}
+                <Clock className="w-5 h-5 text-green-600" />
+                {/* Текст стал чуть меньше, убрали sm:text-base */}
+                <span className="text-gray-700 text-sm">Менее 5 минут</span>
               </div>
               <div className="flex items-center gap-3 bg-white p-3 sm:p-4 rounded-lg shadow-sm">
-                <Shield className="w-5 h-5 sm:w-6 sm:h-6 text-green-600" />
-                <span className="text-gray-700 text-sm sm:text-base">100% Анонимно</span>
+                <Shield className="w-5 h-5 text-green-600" />
+                <span className="text-gray-700 text-sm">100% Анонимно</span>
               </div>
               <div className="flex items-center gap-3 bg-white p-3 sm:p-4 rounded-lg shadow-sm">
-                <CalendarCheck className="w-5 h-5 sm:w-6 sm:h-6 text-green-600" />
-                <span className="text-gray-700 text-sm sm:text-base">Готовый план на 14 дней</span>
+                <CalendarCheck className="w-5 h-5 text-green-600" />
+                <span className="text-gray-700 text-sm">Готовый план на 14 дней</span>
               </div>
             </div>
             <Button
               onClick={() => setCurrentStep(1)}
-              className="bg-green-600 hover:bg-green-700 text-white rounded-full shadow-lg transform hover:scale-105 transition-all my-4 px-8 py-4 text-lg"
+              className="bg-green-600 hover:bg-green-700 text-white rounded-full shadow-lg transform hover:scale-105 transition-all px-8 py-4 text-lg"
             >
               Начать тест
             </Button>
@@ -1104,19 +1110,15 @@ function LandingPage({ setCurrentStep }) {
         </Card>
 
         {/* Trust Indicators */}
-        {/* ИЗМЕНЕНИЕ: Вся сетка и карточки были изменены для мобильной адаптации */}
-        <div className="grid md:grid-cols-2 gap-4 sm:gap-6">
+        {/* <div className="grid md:grid-cols-2 gap-4 sm:gap-6">
           <Card className="border-0 shadow-md">
-            {/* Отступ p-4 для мобильных, p-6 для больших экранов */}
             <CardContent className="p-4 sm:p-6">
               <div className="flex items-center gap-3 mb-3 sm:mb-4">
-                {/* Иконка и круг вокруг нее меньше на мобильных */}
                 <div className="w-10 h-10 sm:w-12 sm:h-12 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
                   <Heart className="w-5 h-5 sm:w-6 sm:h-6 text-green-600" />
                 </div>
                 <h3 className="font-semibold text-gray-800 text-base">Индивидуальный подход</h3>
               </div>
-              {/* Текст параграфа меньше на мобильных */}
               <p className="text-gray-600 text-sm sm:text-base">
                 Каждая женщина уникальна. Наш анализ учитывает ваш образ жизни, стресс и прошлый опыт, чтобы предоставить
                 вам конкретные рекомендации, с которыми вы сможете достичь наилучший результат в кратчайшие сроки.
@@ -1138,7 +1140,7 @@ function LandingPage({ setCurrentStep }) {
               </p>
             </CardContent>
           </Card>
-        </div>
+        </div> */}
       </div>
     </div>
   );
@@ -1173,23 +1175,18 @@ function BasicsPage({ selectedGender, setSelectedGender, age, setAge, height, se
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-peach-50 p-4">
       <div className="max-w-2xl mx-auto">
-        <div className="text-center py-4">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <Heart className="w-8 h-8 text-green-600" />
-            <span className="text-2xl font-bold text-gray-800">NaturalSlim</span>
-          </div>
-        </div>
+        <QuizHeader />
         <Card className="border-0 shadow-lg">
           <CardContent className="p-6 sm:p-8">
             <h2 className="text-2xl font-semibold text-gray-800 mb-2 text-center leading-relaxed">
               Let us know some basics
             </h2>
-            <p className="text-gray-600 text-center mb-8">
+            <p className="text-gray-600 text-center mb-6">
               Это поможет рассчитать безопасный темп снижения
             </p>
-            <div className="grid grid-cols-2 gap-4 mb-8">
+            <div className="grid grid-cols-2 gap-4 mb-6"> {/* Отступ был mb-8, стал mb-6 */}
               <div
-                className={`flex flex-col items-center justify-center p-6 rounded-lg border-2 cursor-pointer transition-all ${selectedGender === "female"
+                className={`flex flex-col items-center justify-center p-4 rounded-lg border-2 cursor-pointer transition-all ${selectedGender === "female" /* Отступ был p-6, стал p-4 */
                   ? "border-green-500 bg-green-100"
                   : "border-gray-200 hover:border-green-300 hover:bg-green-50"
                   }`}
@@ -1198,14 +1195,14 @@ function BasicsPage({ selectedGender, setSelectedGender, age, setAge, height, se
                 <Image
                   src="/basicspage/peruanw.png"
                   alt="Female"
-                  width={64}
-                  height={64}
+                  width={48} // Размер был 64, стал 48
+                  height={48} // Размер был 64, стал 48
                   className="mb-2 rounded-full"
                 />
                 <span className="text-gray-700 font-medium">Female</span>
               </div>
               <div
-                className={`flex flex-col items-center justify-center p-6 rounded-lg border-2 cursor-pointer transition-all ${selectedGender === "male"
+                className={`flex flex-col items-center justify-center p-4 rounded-lg border-2 cursor-pointer transition-all ${selectedGender === "male" /* Отступ был p-6, стал p-4 */
                   ? "border-green-500 bg-green-100"
                   : "border-gray-200 hover:border-green-300 hover:bg-green-50"
                   }`}
@@ -1214,8 +1211,8 @@ function BasicsPage({ selectedGender, setSelectedGender, age, setAge, height, se
                 <Image
                   src="/basicspage/peruanm.png"
                   alt="Male"
-                  width={64}
-                  height={64}
+                  width={48} // Размер был 64, стал 48
+                  height={48} // Размер был 64, стал 48
                   className="mb-2 rounded-full"
                 />
                 <span className="text-gray-700 font-medium">Male</span>
@@ -1324,20 +1321,15 @@ function BMIPage({ selectedGender, age, height, weight, setShowBMIPage, setCurre
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-peach-50 p-4">
       <div className="max-w-2xl mx-auto">
-        <div className="text-center py-4">
-          <div className="flex items-center justify-center gap-2">
-            <Heart className="w-8 h-8 text-green-600" />
-            <span className="text-2xl font-bold text-gray-800">NaturalSlim</span>
-          </div>
-        </div>
+        <QuizHeader />
 
         <Card className="border-0 shadow-lg">
-          <CardContent className="p-6 sm:p-8">
+          <CardContent className="p-4 sm:p-8">
             <div className="text-center mb-8">
               <h2 className="text-2xl font-semibold text-gray-800">Your Body Mass Index (BMI) </h2>
             </div>
 
-            <Card className="rounded-xl bg-muted/5 shadow-md p-6 space-y-5 max-w-[440px] mx-auto mb-8">
+            <Card className="rounded-xl bg-muted/5 shadow-md p-4 space-y-5 max-w-[440px] mx-auto mb-6">
               <div className="relative">
                 <div
                   className="absolute -top-12 transform -translate-x-1/2 z-10"
@@ -1404,13 +1396,13 @@ function BMIPage({ selectedGender, age, height, weight, setShowBMIPage, setCurre
 
                 return (
                   <>
-                    <div className="rounded bg-amber-50 p-4 flex gap-3">
+                    <div className="rounded bg-amber-50 p-3 flex gap-2">
                       <div className="w-5 h-5 bg-amber-400 text-white rounded-full flex items-center justify-center text-xs font-bold">!</div>
                       <div className="text-sm">
                         <span className="font-bold">Health note:</span> {healthNote}
                       </div>
                     </div>
-                    <div className="rounded bg-emerald-50 p-4 flex gap-3">
+                    <div className="rounded bg-emerald-50 p-3 flex gap-2">
                       <div className="w-5 h-5 bg-emerald-400 text-white rounded-full flex items-center justify-center text-xs font-bold">!</div>
                       <div className="text-sm">
                         <span className="font-bold">Good news:</span> {goodNews}
@@ -1632,12 +1624,7 @@ function FinalResultsPage({ finalGoals, eatingProfileSummaryKey, lifestyleProfil
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-peach-50 p-4">
       <div className="max-w-3xl mx-auto">
-        <div className="text-center py-4 mb-2">
-          <div className="flex items-center justify-center gap-2">
-            <Heart className="w-8 h-8 text-green-600" />
-            <span className="text-2xl font-bold text-gray-800">NaturalSlim</span>
-          </div>
-        </div>
+        <QuizHeader />
 
         <div className="bg-white/90 backdrop-blur shadow-lg rounded-2xl p-6 md:p-8 space-y-6">
 
@@ -1797,10 +1784,10 @@ function FinalResultsPage({ finalGoals, eatingProfileSummaryKey, lifestyleProfil
 // 14. Шаг: какую фигуру вы хотите
 function BodyShapeStep({ desiredShape, setDesiredShape, setAnswers, setCurrentStep }) {
   const options = [
-    { key: "Slim", title: "Стройную", hint: "Лёгкая, изящная", img: "/bodyshape/slim.jpg" },
-    { key: "Toned", title: "Подтянутую", hint: "Рельеф и упругость", img: "/bodyshape/toned.jpg" },
-    { key: "Curvy", title: "С изгибами", hint: "Мягкие женственные", img: "/bodyshape/curved.jpg" },
-    { key: "Athletic", title: "Спортивную", hint: "Баланс и сила", img: "/bodyshape/athletic.jpg" },
+    { key: "Slim", title: "Стройную", hint: "Тонкая, с плоским животом", img: "/bodyshape/slim.jpg" },
+    { key: "Toned", title: "Подтянутую", hint: "С небольшой мышечной массой", img: "/bodyshape/toned.jpg" },
+    { key: "Curvy", title: "С изгибами", hint: "Округлая женственная", img: "/bodyshape/curved.jpg" },
+    { key: "Athletic", title: "Спортивную", hint: "Спортивная с мышцами", img: "/bodyshape/athletic.jpg" },
   ]
 
   return (
@@ -1808,12 +1795,7 @@ function BodyShapeStep({ desiredShape, setDesiredShape, setAnswers, setCurrentSt
       {/* ИЗМЕНЕНИЕ: Убрали лишний отступ py-8 отсюда */}
       <div className="max-w-3xl mx-auto">
         {/* ИЗМЕНЕНИЕ: Добавили стандартный отступ py-4 сюда */}
-        <div className="text-center py-4 mb-2">
-          <div className="flex items-center justify-center gap-2">
-            <Heart className="w-8 h-8 text-green-600" />
-            <span className="text-2xl font-bold text-gray-800">NaturalSlim</span>
-          </div>
-        </div>
+        <QuizHeader />
 
         <div className="bg-white/90 backdrop-blur shadow-lg rounded-2xl p-6 md:p-8 space-y-6">
           <h2 className="text-3xl font-bold text-center text-gray-900">Какую фигуру вы хотите?</h2>
@@ -1904,14 +1886,9 @@ function PreQuestionnaireIntroPage({ setCurrentStep }) {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-peach-50 p-4">
-      <div className="max-w-2xl mx-auto py-10">
+      <div className="max-w-2xl mx-auto">
         {/* Header */}
-        <div className="text-center py-8">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <Heart className="w-8 h-8 text-green-600" />
-            <span className="text-2xl font-bold text-gray-800">NaturalSlim</span>
-          </div>
-        </div>
+        <QuizHeader />
 
         <Card className="border-0 shadow-lg">
           <CardContent className="p-6 sm:p-8">
@@ -1925,8 +1902,9 @@ function PreQuestionnaireIntroPage({ setCurrentStep }) {
             {/* ИЗМЕНЕНИЕ: Новый подход к выравниванию для более компактного вида */}
             <div className="flex justify-center items-start mb-6">
               {introIcons.map((item) => (
-                <div key={item.label} className="flex flex-col items-center w-20"> {/* Задаем каждому блоку фиксированную ширину */}
-                  <div className="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center text-2xl mb-2">
+                <div key={item.label} className="flex flex-col items-center w-20">
+                  {/* Размеры круга и иконки стали меньше */}
+                  <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-xl mb-2">
                     {item.emoji}
                   </div>
                   <span className="text-xs text-center">{item.label}</span>
@@ -1935,7 +1913,7 @@ function PreQuestionnaireIntroPage({ setCurrentStep }) {
             </div>
 
             {/* Info Box */}
-            <div className="bg-blue-50 rounded-lg p-4 text-sm text-gray-700 mb-8">
+            <div className="bg-blue-50 rounded-lg p-3 text-sm text-gray-700 mb-6">
               <ul className="space-y-1">
                 <li>• Ответы займут меньше минуты</li>
                 <li>• Никаких персональных данных</li>
@@ -2022,19 +2000,11 @@ function MiniQuestionPage({ miniQuizStep, miniQuizAnswers, setMiniQuizAnswers, s
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-peach-50 p-4">
-      <div className="max-w-2xl mx-auto py-10">
-        {/* Header */}
-        <div className="text-center py-8">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <Heart className="w-8 h-8 text-green-600" />
-            <span className="text-2xl font-bold text-gray-800">NaturalSlim</span>
-          </div>
-        </div>
-
-        {/* Progress */}
-        <div className="flex justify-between text-sm text-gray-600 mb-6">
-          <span></span>
-          <span>Step {miniQuizStep + 1} of 5</span>
+      <div className="max-w-2xl mx-auto">
+        {/* New Header with Progress */}
+        <div className="flex justify-between items-center mb-6">
+          <QuizHeader />
+          <span className="text-sm text-gray-600 px-4">Step {miniQuizStep + 1} of 5</span>
         </div>
 
         {/* Question Card */}
@@ -2119,14 +2089,9 @@ function MiniQuestionPage({ miniQuizStep, miniQuizAnswers, setMiniQuizAnswers, s
 function PreMainQuizIntroPage({ setCurrentStep }) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-peach-50 p-4">
-      <div className="max-w-2xl mx-auto py-10">
+      <div className="max-w-2xl mx-auto">
         {/* Header */}
-        <div className="text-center py-8">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <Heart className="w-8 h-8 text-green-600" />
-            <span className="text-2xl font-bold text-gray-800">NaturalSlim</span>
-          </div>
-        </div>
+        <QuizHeader />
 
         <div className="relative">
           <div className="hidden sm:flex absolute -top-7 right-2 items-center gap-2 text-sm lg:text-base text-gray-500">
@@ -2145,12 +2110,13 @@ function PreMainQuizIntroPage({ setCurrentStep }) {
 
                 <PlanPreviewLocked />
 
-                {/* --- ИЗМЕНЕНИЕ: Заголовок теперь здесь, ПОД планом --- */}
-                <h2 className="text-2xl font-bold text-gray-800 mt-6">
+                {/* Уменьшили отступ сверху с mt-6 до mt-4 */}
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mt-4">
                   Осталось ответить на пару коротких вопросов
                 </h2>
 
-                <div className="mt-6 text-left rounded-xl border border-green-200 bg-green-50 px-5 py-4">
+                {/* Уменьшили отступ сверху и внутренние отступы px, py */}
+                <div className="mt-4 text-left rounded-xl border border-green-200 bg-green-50 px-4 py-3">
                   <div className="flex items-start gap-4">
                     <Gift className="w-6 h-6 text-green-600 mt-1" />
                     <div>
@@ -2175,9 +2141,10 @@ function PreMainQuizIntroPage({ setCurrentStep }) {
                   </div>
                 </div>
 
+                {/* Уменьшили отступ сверху с mt-8 до mt-6 */}
                 <Button
                   onClick={() => setCurrentStep(5)}
-                  className="mt-8 w-full bg-green-600 hover:bg-green-700 text-white rounded-full py-4 font-semibold text-lg shadow-md"
+                  className="mt-6 w-full bg-green-600 hover:bg-green-700 text-white rounded-full py-4 font-semibold text-lg shadow-md"
                 >
                   Перейти к вопросам
                 </Button>
@@ -2206,55 +2173,59 @@ function EatingSummaryPage({ eatingProfileSummaryKey, isPlanApplied, setIsPlanAp
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-peach-50 p-4">
-      {/* ИЗМЕНЕНИЕ: Убрали py-10 и добавили pt-12 для умеренного отступа сверху */}
-      <div className="max-w-2xl mx-auto pt-12">
-        {/* ИЗМЕНЕНИЕ: Пустой div с классом py-8 был полностью удален */}
+      <div className="max-w-2xl mx-auto">
         <Card className="border-0 shadow-lg overflow-hidden">
           <CardContent className="p-0 sm:p-0">
-
+            {/* Высота картинки стала h-48 вместо h-56 */}
             <Image
               src={content.imageSrc}
               alt="Habit illustration"
               width={600}
               height={400}
-              className="w-full h-56 object-contain"
+              className="w-full h-48 object-contain"
             />
 
             <div className="border-t border-gray-100"></div>
 
-            <div className="p-6 sm:p-8 bg-gradient-to-b from-white to-gray-50/50">
-              <h2 className="text-xl font-bold text-center text-gray-800 mb-6">
+            {/* Основные отступы p-6 -> p-4 */}
+            <div className="p-4 sm:p-6 bg-gradient-to-b from-white to-gray-50/50">
+              {/* Заголовок стал меньше, отступ mb-6 -> mb-4 */}
+              <h2 className="text-lg font-bold text-center text-gray-800 mb-4">
                 {content.title}
               </h2>
 
-              <div className="space-y-4">
-                <div className="bg-amber-50 p-4 rounded-xl border-l-4 border-amber-400 shadow-sm">
-                  <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Рекомендация</h3>
-                  <p className="text-base text-gray-800 leading-relaxed mt-2">{content.habit}</p>
+              {/* Расстояние между блоками space-y-4 -> space-y-3 */}
+              <div className="space-y-3">
+                {/* Отступы p-4 -> p-3, текст text-base -> text-sm, убран leading-relaxed */}
+                <div className="bg-amber-50 p-3 rounded-xl border-l-4 border-amber-400 shadow-sm">
+                  <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Рекомендация</h3>
+                  <p className="text-sm text-gray-800 mt-1">{content.habit}</p>
                 </div>
 
-                <div className="bg-green-50 p-4 rounded-xl border-l-4 border-green-500 shadow-sm">
-                  <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Ваша цель на неделю</h3>
-                  <p className="text-base text-gray-800 leading-relaxed mt-2">{content.goal}</p>
+                <div className="bg-green-50 p-3 rounded-xl border-l-4 border-green-500 shadow-sm">
+                  <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Ваша цель на неделю</h3>
+                  <p className="text-sm text-gray-800 mt-1">{content.goal}</p>
                 </div>
               </div>
 
-              <div className="mt-6 bg-gray-50 p-3 rounded-lg border border-gray-200">
-                <p className="text-sm text-gray-700">
+              {/* Отступ mt-6 -> mt-4 */}
+              <div className="mt-4 bg-gray-50 p-3 rounded-lg border border-gray-200">
+                <p className="text-xs text-gray-700">
                   {content.rationale}
                 </p>
               </div>
 
+              {/* Отступ mt-6 -> mt-4 */}
               <Button
                 onClick={handleContinue}
                 disabled={isPlanApplied}
-                className="w-full mt-6 rounded-full py-4 font-semibold text-lg shadow-md transition-all duration-300 bg-green-600 hover:bg-green-700 text-white disabled:bg-emerald-500"
+                className="w-full mt-4 rounded-full py-3 font-semibold text-base shadow-md transition-all duration-300 bg-green-600 hover:bg-green-700 text-white disabled:bg-emerald-500"
               >
                 {isPlanApplied ? (
                   <span className="flex items-center justify-center gap-2"><CheckCircle2 className="w-5 h-5" /> Учтем в плане!</span>
                 ) : ("Применить в плане")}
               </Button>
-              <p className="text-xs text-gray-500 text-center mt-3">{content.promise}</p>
+              <p className="text-xs text-gray-500 text-center mt-2">{content.promise}</p>
             </div>
           </CardContent>
         </Card>
@@ -2280,7 +2251,7 @@ function LifestyleSummaryPage({ lifestyleProfileSummaryKey, isPlanApplied, setIs
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-peach-50 p-4">
       {/* ИЗМЕНЕНИЕ: Убрали py-10 и добавили pt-12 для умеренного отступа сверху */}
-      <div className="max-w-2xl mx-auto pt-12">
+      <div className="max-w-2xl mx-auto">
         {/* ИЗМЕНЕНИЕ: Пустой div с классом py-8 был полностью удален */}
         <Card className="border-0 shadow-lg overflow-hidden">
           <CardContent className="p-0 sm:p-0">
@@ -2290,29 +2261,29 @@ function LifestyleSummaryPage({ lifestyleProfileSummaryKey, isPlanApplied, setIs
               alt="Lifestyle illustration"
               width={600}
               height={400}
-              className="w-full h-56 object-contain"
+              className="w-full h-48 object-contain"
             />
 
             <div className="border-t border-gray-100"></div>
 
-            <div className="p-6 sm:p-8 bg-gradient-to-b from-white to-gray-50/50">
-              <h2 className="text-xl font-bold text-center text-gray-800 mb-6">
+            <div className="p-4 sm:p-8 bg-gradient-to-b from-white to-gray-50/50">
+              <h2 className="text-xl font-bold text-center text-gray-800 mb-4">
                 {content.title}
               </h2>
 
-              <div className="space-y-4">
-                <div className="bg-sky-50 p-4 rounded-xl border-l-4 border-sky-400 shadow-sm">
+              <div className="space-y-3">
+                <div className="bg-sky-50 p-3 rounded-xl border-l-4 border-sky-400 shadow-sm">
                   <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Рекомендация</h3>
-                  <p className="text-base text-gray-800 leading-relaxed mt-2">{content.habit}</p>
+                  <p className="text-sm text-gray-800 mt-1">{content.habit}</p>
                 </div>
 
-                <div className="bg-green-50 p-4 rounded-xl border-l-4 border-green-500 shadow-sm">
+                <div className="bg-green-50 p-3 rounded-xl border-l-4 border-green-500 shadow-sm">
                   <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Ваша цель на неделю</h3>
-                  <p className="text-base text-gray-800 leading-relaxed mt-2">{content.goal}</p>
+                  <p className="text-sm text-gray-800 mt-1">{content.goal}</p>
                 </div>
               </div>
 
-              <div className="mt-6 bg-gray-50 p-3 rounded-lg border border-gray-200">
+              <div className="mt-4 bg-gray-50 p-3 rounded-lg border border-gray-200">
                 <p className="text-sm text-gray-700">
                   {content.rationale}
                 </p>
@@ -2321,7 +2292,7 @@ function LifestyleSummaryPage({ lifestyleProfileSummaryKey, isPlanApplied, setIs
               <Button
                 onClick={handleContinue}
                 disabled={isPlanApplied}
-                className="w-full mt-6 rounded-full py-4 font-semibold text-lg shadow-md transition-all duration-300 bg-green-600 hover:bg-green-700 text-white disabled:bg-emerald-500"
+                className="w-full mt-4 rounded-full py-4 font-semibold text-lg shadow-md transition-all duration-300 bg-green-600 hover:bg-green-700 text-white disabled:bg-emerald-500"
               >
                 {isPlanApplied ? (
                   <span className="flex items-center justify-center gap-2"><CheckCircle2 className="w-5 h-5" /> Добавлено!</span>
@@ -2355,7 +2326,7 @@ function AttemptsSummaryPage({ attemptsProfileSummaryKey, isPlanApplied, setIsPl
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-peach-50 p-4">
       {/* ИЗМЕНЕНИЕ: Убрали py-10 и добавили pt-12 для умеренного отступа сверху */}
-      <div className="max-w-2xl mx-auto pt-12">
+      <div className="max-w-2xl mx-auto">
         {/* ИЗМЕНЕНИЕ: Пустой div с классом py-8 был полностью удален */}
         <Card className="border-0 shadow-lg overflow-hidden">
           <CardContent className="p-0 sm:p-0">
@@ -2365,29 +2336,29 @@ function AttemptsSummaryPage({ attemptsProfileSummaryKey, isPlanApplied, setIsPl
               alt="Approach illustration"
               width={600}
               height={400}
-              className="w-full h-56 object-contain"
+              className="w-full h-48 object-contain"
             />
 
             <div className="border-t border-gray-100"></div>
 
-            <div className="p-6 sm:p-8 bg-gradient-to-b from-white to-gray-50/50">
-              <h2 className="text-xl font-bold text-center text-gray-800 mb-6">
+            <div className="p-4 sm:p-8 bg-gradient-to-b from-white to-gray-50/50">
+              <h2 className="text-xl font-bold text-center text-gray-800 mb-4">
                 {content.title}
               </h2>
 
-              <div className="space-y-4">
-                <div className="bg-violet-50 p-4 rounded-xl border-l-4 border-violet-400 shadow-sm">
+              <div className="space-y-3">
+                <div className="bg-violet-50 p-3 rounded-xl border-l-4 border-violet-400 shadow-sm">
                   <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Ваш новый подход</h3>
-                  <p className="text-base text-gray-800 leading-relaxed mt-2">{content.habit}</p>
+                  <p className="text-sm text-gray-800 mt-1">{content.habit}</p>
                 </div>
 
-                <div className="bg-green-50 p-4 rounded-xl border-l-4 border-green-500 shadow-sm">
+                <div className="bg-green-50 p-3 rounded-xl border-l-4 border-green-500 shadow-sm">
                   <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Ваша первая цель</h3>
-                  <p className="text-base text-gray-800 leading-relaxed mt-2">{content.goal}</p>
+                  <p className="text-sm text-gray-800 mt-1">{content.goal}</p>
                 </div>
               </div>
 
-              <div className="mt-6 bg-gray-50 p-3 rounded-lg border border-gray-200">
+              <div className="mt-4 bg-gray-50 p-3 rounded-lg border border-gray-200">
                 <p className="text-sm text-gray-700">
                   {content.rationale}
                 </p>
@@ -2396,7 +2367,7 @@ function AttemptsSummaryPage({ attemptsProfileSummaryKey, isPlanApplied, setIsPl
               <Button
                 onClick={handleContinue}
                 disabled={isPlanApplied}
-                className="w-full mt-6 rounded-full py-4 font-semibold text-lg shadow-md transition-all duration-300 bg-green-600 hover:bg-green-700 text-white disabled:bg-emerald-500"
+                className="w-full mt-4 rounded-full py-4 font-semibold text-lg shadow-md transition-all duration-300 bg-green-600 hover:bg-green-700 text-white disabled:bg-emerald-500"
               >
                 {isPlanApplied ? (
                   <span className="flex items-center justify-center gap-2"><CheckCircle2 className="w-5 h-5" /> Добавлено!</span>
@@ -2466,12 +2437,7 @@ function QuizQuestion({ currentQuizStep, showFact, showLifestyleSummary, showAtt
 
       <div className="max-w-2xl mx-auto">
         {/* ИЗМЕНЕНИЕ: Уменьшили отступ с py-8 до py-4 */}
-        <div className="text-center py-4">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <Heart className="w-8 h-8 text-green-600" />
-            <span className="text-2xl font-bold text-gray-800">NaturalSlim</span>
-          </div>
-        </div>
+        <QuizHeader />
         <div className="mb-8">
           <div className="flex justify-between text-sm text-gray-600 mb-2">
             <span>Progreso: {Math.round(getQuizProgress())}%</span>
@@ -2506,11 +2472,14 @@ function QuizQuestion({ currentQuizStep, showFact, showLifestyleSummary, showAtt
             );
           })}
           <CardContent className="p-4 sm:p-6">
-            <div className="text-center mb-8">
-              <h2 className="font-semibold text-green-600 text-2xl mb-5">{getSectionTitle()}</h2>
-              <h3 className="font-medium text-gray-800 leading-relaxed text-lg">{question.question}</h3>
-              <p className="text-sm text-gray-500 mt-2">(Выберите наиболее близкий вариант)</p>
+            <div className="text-center mb-6"> {/* Отступ был mb-8, стал mb-6 */}
+              {/* Заголовок секции стал меньше и отступ под ним тоже */}
+              <h2 className="font-semibold text-green-600 text-lg mb-3">{getSectionTitle()}</h2>
+              {/* Сам вопрос стал меньше */}
+              <h3 className="font-medium text-gray-800 leading-snug text-base">{question.question}</h3>
+              <p className="text-xs text-gray-500 mt-2">(Выберите наиболее близкий вариант)</p>
             </div>
+
 
             <div className="space-y-4">
               {question.options.map((option, index) => {
@@ -2607,45 +2576,45 @@ function TransitionPage({ finalGoals, setFinalGoals, analyzeAnswers, answers, se
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-peach-50 p-4">
       <div className="max-w-2xl mx-auto">
         {/* Header */}
-        <div className="text-center py-8">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <Heart className="w-8 h-8 text-green-600" />
-            <span className="text-2xl font-bold text-gray-800">NaturalSlim</span>
-          </div>
-        </div>
+        <QuizHeader />
 
         {/* Question Card */}
         <Card className="border-0 shadow-lg">
           <CardContent className="p-6 sm:p-8">
-            <div className="text-center mb-8">
-              <h2 className="font-semibold text-green-600 text-2xl mb-5">Последний вопрос</h2>
-              <h3 className="font-medium text-gray-800 leading-relaxed text-lg">
+            <div className="text-center mb-6"> {/* Отступ был mb-8, стал mb-6 */}
+              {/* Заголовок стал меньше, отступ тоже */}
+              <h2 className="font-semibold text-green-600 text-lg mb-3">Последний вопрос</h2>
+              {/* Текст вопроса стал меньше */}
+              <h3 className="font-medium text-gray-800 leading-snug text-base">
                 Если бы у вас был вес вашей мечты, что бы вы сделали?
               </h3>
-              <p className="text-sm text-gray-500 mt-2">(Можно выбрать несколько вариантов)</p>
+              <p className="text-xs text-gray-500 mt-2">(Можно выбрать несколько вариантов)</p>
             </div>
 
             {/* Checkbox Options */}
-            <div className="space-y-4">
+            <div className="space-y-3"> {/* Расстояние между кнопками было space-y-4 */}
               {options.map((option, index) => {
                 const isSelected = finalGoals.includes(option);
                 return (
                   <div
                     key={index}
                     onClick={() => handleSelection(option)}
-                    className={`flex items-center gap-4 p-4 border-2 rounded-3xl cursor-pointer transition-all ${isSelected ? "border-green-400 bg-green-50" : "border-gray-200 hover:border-green-300 hover:bg-green-50"}`}
+                    /* Отступы p-4 -> p-3, gap-4 -> gap-3, скругление rounded-3xl -> rounded-2xl */
+                    className={`flex items-center gap-3 p-3 border-2 rounded-2xl cursor-pointer transition-all ${isSelected ? "border-green-400 bg-green-50" : "border-gray-200 hover:border-green-300 hover:bg-green-50"}`}
                   >
-                    <div className={`w-6 h-6 rounded-md border-2 flex-shrink-0 flex items-center justify-center ${isSelected ? 'bg-green-500 border-green-500' : 'border-gray-300'}`}>
-                      {isSelected && <CheckCircle2 className="w-4 h-4 text-white" />}
+                    {/* Размер квадратика-галочки стал меньше */}
+                    <div className={`w-5 h-5 rounded-md border-2 flex-shrink-0 flex items-center justify-center ${isSelected ? 'bg-green-500 border-green-500' : 'border-gray-300'}`}>
+                      {isSelected && <Check className="w-3 h-3 text-white" strokeWidth={3} />}
                     </div>
-                    <span className={`text-gray-700 flex-1 ${option.includes("жить") && !option.includes("активной") ? "font-bold" : ""}`}>{option}</span>
+                    {/* Размер текста стал меньше */}
+                    <span className={`text-sm text-gray-700 flex-1 ${option.includes("жить") && !option.includes("активной") ? "font-bold" : ""}`}>{option}</span>
                   </div>
                 );
               })}
             </div>
 
             {/* Continue Button */}
-            <div className="mt-8">
+            <div className="mt-6">
               <Button
                 onClick={handleNext}
                 disabled={finalGoals.length === 0}
@@ -2698,12 +2667,7 @@ function ThankYouPage({ orderDetails, setOrderDetails }) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-peach-50 p-4">
       <div className="max-w-2xl mx-auto">
-        <div className="text-center py-4">
-          <div className="flex items-center justify-center gap-2">
-            <Heart className="w-8 h-8 text-green-600" />
-            <span className="text-2xl font-bold text-gray-800">NaturalSlim</span>
-          </div>
-        </div>
+        <QuizHeader />
 
         <Card className="border-0 shadow-lg">
           <CardContent className="p-6 sm:p-8 text-center">
@@ -2932,18 +2896,14 @@ function OfferPage({ finalGoals, eatingProfileSummaryKey, lifestyleProfileSummar
       orderId: "4502A"
     },
   ];
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-peach-50 p-4">
       <div className="max-w-4xl mx-auto">
-        <div className="text-center py-4">
-          <div className="flex items-center justify-center gap-2">
-            <Heart className="w-8 h-8 text-green-600" />
-            <span className="text-2xl font-bold text-gray-800">NaturalSlim</span>
-          </div>
-        </div>
+        <QuizHeader />
 
-        <div className="bg-white/90 backdrop-blur rounded-2xl shadow-lg ring-1 ring-black/5 p-6 md:p-8 space-y-8">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 text-center leading-tight">
+        <div className="bg-white/90 backdrop-blur rounded-2xl shadow-lg ring-1 ring-black/5 p-4 md:p-6 space-y-6">
+          <h1 className="mt-4 text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 text-center leading-tight">
             {dynamicHeadline}
           </h1>
 
@@ -3035,8 +2995,8 @@ function OfferPage({ finalGoals, eatingProfileSummaryKey, lifestyleProfileSummar
             </div>
           </div>
 
-          <div className="border-2 border-green-600 rounded-xl p-5 shadow-inner bg-white">
-            <h2 className="text-xl sm:text-2xl font-bold text-center text-green-700 mb-4">Ваше персональное предложение</h2>
+          <div className="border-2 border-green-600 rounded-xl p-4 shadow-inner bg-white">
+            <h2 className="text-xl sm:text-2xl font-bold text-center text-green-700 mb-3">Ваше персональное предложение</h2>
             <div className="mb-4">
               <div className="flex justify-between items-center mt-1 text-sm">
                 <span>Комплекс "Esbelita Natural" + План + Памятка</span>
@@ -3129,7 +3089,7 @@ function OfferPage({ finalGoals, eatingProfileSummaryKey, lifestyleProfileSummar
             </div>
           </form>
 
-          <div className="pt-6">
+          {/* <div className="pt-6">
             <h3 className="text-xl font-bold text-gray-900 mb-4 text-center">Что говорят наши клиенты</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {testimonials.map((t, i) => {
@@ -3174,6 +3134,42 @@ function OfferPage({ finalGoals, eatingProfileSummaryKey, lifestyleProfileSummar
                 );
               })}
             </div>
+          </div> */}
+
+          <div className="pt-6">
+            <h3 className="text-xl font-bold text-gray-900 mb-4 text-center">Что говорят наши клиенты</h3>
+            {/* Новый дизайн для отзывов без фото, но с оригинальным текстом */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {testimonials.map((t, i) => {
+                // --- НАЧАЛО: Наша новая логика ---
+                if (t.isExpert) {
+                  // Если это эксперт, рисуем особую карточку
+                  const IconComponent = t.img; // Вытаскиваем иконку из данных
+                  return (
+                    <div key={i} className="bg-sky-50 border border-sky-200 rounded-xl p-4 flex flex-col h-full">
+                      <div className="flex items-center gap-3 mb-2">
+                        {/* А здесь используем эту иконку */}
+                        {IconComponent && <IconComponent className="w-6 h-6 text-sky-600 flex-shrink-0" />}
+                        <p className="font-semibold text-gray-800 text-sm">{t.name}</p>
+                      </div>
+                      <p className="text-gray-700 italic text-sm flex-grow">“{t.quote}”</p>
+                    </div>
+                  );
+                } else {
+                  // Иначе (если это обычный пользователь), рисуем стандартную зелёную карточку
+                  return (
+                    <div key={i} className="bg-green-50/70 border border-green-100 rounded-xl p-4 flex flex-col h-full">
+                      <div className="flex justify-between items-center mb-2">
+                        <p className="font-semibold text-gray-800 text-sm">{t.name}</p>
+                        {t.stars && <StarRating rating={t.stars} />}
+                      </div>
+                      <p className="text-gray-700 italic text-sm flex-grow">“{t.quote}”</p>
+                    </div>
+                  );
+                }
+                // --- КОНЕЦ: Наша новая логика ---
+              })}
+            </div>
           </div>
 
           <div className="pt-6">
@@ -3206,13 +3202,13 @@ function OfferPage({ finalGoals, eatingProfileSummaryKey, lifestyleProfileSummar
 
           <div className="pt-6">
             <h3 className="text-xl font-bold text-gray-900 mb-4 text-center">Часто задаваемые вопросы</h3>
-            <div className="space-y-3 text-gray-700 text-sm">
-              <details className="rounded-xl border border-gray-200 p-3"><summary className="cursor-pointer font-medium">Нужно ли соблюдать жесткую диету?</summary><p className="mt-2">Нет. Комплекс и план питания созданы, чтобы вы худели без стресса и срывов. План предлагает сытные и простые блюда, а капсулы помогают снизить тягу к вредному. Вам не придется голодать.</p></details>
-              <details className="rounded-xl border border-gray-200 p-3"><summary className="cursor-pointer font-medium">Я боюсь что эффект временнный, а вес вернется</summary><p className="mt-2">Наш подход нацелен на изменение привычек и нормализацию обмена веществ, а не на быструю потерю воды. Это создает устойчивый результат. Памятка по привычкам поможет вам закрепить его после окончания курса.</p></details>
-              <details className="rounded-xl border border-gray-200 p-3"><summary className="cursor-pointer font-medium">Я могу купить потом или в магазине?</summary><p className="mt-2">Это специальное предложение — скидка 50% и бесплатные бонусы — доступно только здесь и сейчас в благодарность за прохождение опроса. В магазинах продукт не продается.</p></details>
-              <details className="rounded-xl border border-gray-200 p-3"><summary className="cursor-pointer font-medium">Слишком хорошо звучит, в чем подвох?</summary><p className="mt-2">Подвоха нет. Мы уверены в своем продукте и плане, поэтому готовы предложить лучшие условия тем, кто прошел опрос и серьезно настроен на результат. Ваш успех — наша лучшая реклама.</p></details>
-              <details className="rounded-xl border border-gray-200 p-3"><summary className="cursor-pointer font-medium">Как-то дорого</summary><p className="mt-2">Стоимость курса на месяц со скидкой — 99 PEN. Это всего около 3.3 PEN в день, дешевле чашки кофе. За эту цену вы получаете не просто капсулы, а комплексное решение с планом питания и памяткой, что гораздо выгоднее, чем одна консультация у диетолога.</p></details>
-              <details className="rounded-xl border border-gray-200 p-3"><summary className="cursor-pointer font-medium">Есть ли противопоказания?</summary><p className="mt-2">Не рекомендуется принимать при беременности, кормлении грудью, а также при индивидуальной непереносимости компонентов. Если у вас есть хронические заболевания, проконсультируйтесь с врачом перед началом курса.</p></details>
+            <div className="space-y-3 text-gray-700 text-xs">
+              <details className="rounded-xl border border-gray-200 p-2"><summary className="cursor-pointer font-medium">Нужно ли соблюдать жесткую диету?</summary><p className="mt-2">Нет. Комплекс и план питания созданы, чтобы вы худели без стресса и срывов. План предлагает сытные и простые блюда, а капсулы помогают снизить тягу к вредному. Вам не придется голодать.</p></details>
+              <details className="rounded-xl border border-gray-200 p-2"><summary className="cursor-pointer font-medium">Я боюсь что эффект временнный, а вес вернется</summary><p className="mt-2">Наш подход нацелен на изменение привычек и нормализацию обмена веществ, а не на быструю потерю воды. Это создает устойчивый результат. Памятка по привычкам поможет вам закрепить его после окончания курса.</p></details>
+              <details className="rounded-xl border border-gray-200 p-2"><summary className="cursor-pointer font-medium">Я могу купить потом или в магазине?</summary><p className="mt-2">Это специальное предложение — скидка 50% и бесплатные бонусы — доступно только здесь и сейчас в благодарность за прохождение опроса. В магазинах продукт не продается.</p></details>
+              <details className="rounded-xl border border-gray-200 p-2"><summary className="cursor-pointer font-medium">Слишком хорошо звучит, в чем подвох?</summary><p className="mt-2">Подвоха нет. Мы уверены в своем продукте и плане, поэтому готовы предложить лучшие условия тем, кто прошел опрос и серьезно настроен на результат. Ваш успех — наша лучшая реклама.</p></details>
+              <details className="rounded-xl border border-gray-200 p-2"><summary className="cursor-pointer font-medium">Как-то дорого</summary><p className="mt-2">Стоимость курса на месяц со скидкой — 99 PEN. Это всего около 3.3 PEN в день, дешевле чашки кофе. За эту цену вы получаете не просто капсулы, а комплексное решение с планом питания и памяткой, что гораздо выгоднее, чем одна консультация у диетолога.</p></details>
+              <details className="rounded-xl border border-gray-200 p-2"><summary className="cursor-pointer font-medium">Есть ли противопоказания?</summary><p className="mt-2">Не рекомендуется принимать при беременности, кормлении грудью, а также при индивидуальной непереносимости компонентов. Если у вас есть хронические заболевания, проконсультируйтесь с врачом перед началом курса.</p></details>
             </div>
           </div>
 
@@ -3695,6 +3691,7 @@ export default function WeightLossQuizApp() {
         letterAnswers={letterAnswers}
         lastClickedOption={lastClickedOption}
         setLastClickedOption={setLastClickedOption} />
+      {![16, 18].includes(currentStep) && <ScrollFade />}
       <StickyCta isVisible={isCtaVisible && currentStep === 17} />
     </>
   );
