@@ -1469,22 +1469,21 @@ function BMIPage({ selectedGender, age, height, weight, setShowBMIPage, setCurre
               </Button>
             </div>
 
-            {/* Блок №2: Новая "липкая" кнопка для МОБИЛЬНЫХ (скрыта на десктопе) */}
-            <div className="sm:hidden fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-200 z-50">
-              <Button
-                onClick={() => {
-                  setShowBMIPage(false)
-                  setCurrentStep(2)
-                }}
-                className="w-full bg-green-600 hover:bg-green-700 text-white rounded-full py-3 font-semibold text-base shadow-lg"
-              >
-                Continue
-              </Button>
-            </div>
-            {/* --- КОНЕЦ: НАШИ НОВЫЕ КНОПКИ --- */}
-
           </CardContent>
         </Card>
+        <div className="sm:hidden h-24">
+          <div className="fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-white via-white to-transparent">
+            <Button
+              onClick={() => {
+                setShowBMIPage(false)
+                setCurrentStep(2)
+              }}
+              className="w-full bg-green-600 hover:bg-green-700 text-white rounded-full py-3 font-semibold text-base shadow-lg"
+            >
+              Continue
+            </Button>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -1798,8 +1797,8 @@ function FinalResultsPage({ finalGoals, eatingProfileSummaryKey, lifestyleProfil
                 {/* Кнопка №1: Получить только план */}
                 <Button
                   onClick={() => {
-                    setUserPath('plan'); // Запоминаем выбор
-                    setCurrentStep(15); // Переходим на новую страницу "Только План"
+                    setUserPath('plan');
+                    setCurrentStep(15);
                   }}
                   variant="outline"
                   className="flex-1 bg-white hover:bg-gray-100 text-gray-700 rounded-full py-3 font-semibold text-base border-2 border-gray-300"
@@ -1809,12 +1808,15 @@ function FinalResultsPage({ finalGoals, eatingProfileSummaryKey, lifestyleProfil
                 {/* Кнопка №2: Стандартный путь с капсулами */}
                 <Button
                   onClick={() => {
-                    setUserPath('capsules'); // Запоминаем выбор
-                    setCurrentStep(16); // Переходим на страницу загрузки, как и раньше
+                    setUserPath('capsules');
+                    setCurrentStep(16);
                   }}
-                  className="flex-1 bg-green-600 hover:bg-green-700 text-white rounded-full py-3 font-semibold text-base shadow-md"
+                  className="flex-1 bg-green-600 hover:bg-green-700 text-white rounded-full py-3 font-semibold text-base shadow-md h-auto"
                 >
-                  Найти подходящие капсулы
+                  <div className="flex flex-col items-center">
+                    <span>Найти подходящие капсулы</span>
+                    <span className="text-xs font-normal opacity-80 mt-1">и получить план</span>
+                  </div>
                 </Button>
               </div>
             </div>
@@ -1989,7 +1991,7 @@ function PlanThankYouPage({ setCurrentStep, orderDetails, setOrderDetails }) {
   };
 
   // --- 2-минутный таймер для доставки плана ---
-  const [timer, setTimer] = React.useState(120); 
+  const [timer, setTimer] = React.useState(120);
 
   React.useEffect(() => {
     if (timer === 0) return;
@@ -2009,7 +2011,7 @@ function PlanThankYouPage({ setCurrentStep, orderDetails, setOrderDetails }) {
         <QuizHeader />
         <Card className="border-0 shadow-lg bg-white/90 backdrop-blur">
           <CardContent className="p-6 sm:p-8 space-y-6 text-center">
-            
+
             <div>
               <CheckCircle2 className="w-16 h-16 text-green-500 mx-auto mb-4" />
               <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">Спасибо, {orderDetails.name}!</h1>
@@ -2049,21 +2051,21 @@ function PlanThankYouPage({ setCurrentStep, orderDetails, setOrderDetails }) {
                 </button>
               )}
             </div>
-            
+
             <div className="bg-sky-50 border-2 border-sky-200 rounded-2xl p-5 shadow-inner">
               <h2 className="font-bold text-xl text-sky-800">Отличные новости!</h2>
               <p className="text-sm text-gray-700 mt-2 mb-4">
                 Пока мы готовили ваш план, наша система подобрала комплекс натуральных компонентов, который идеально дополнит ваш план и поможет ускорить результат.
                 В благодарность за уделённое время, мы зарезервировали для вас <strong>персональную скидку 50%</strong>.
               </p>
-              <Button 
-                onClick={() => setCurrentStep(20)} 
+              <Button
+                onClick={() => setCurrentStep(20)}
                 className="w-full max-w-md mx-auto bg-green-600 hover:bg-green-700 text-white rounded-full py-3 font-semibold text-base shadow-lg transition-transform transform hover:scale-105"
               >
                 Узнать подробнее
               </Button>
             </div>
-            
+
             <p className="text-sm text-gray-500 pt-2">
               В любом случае, ваш бесплатный план уже в пути. Желаем вам прекрасных результатов!
             </p>
@@ -2078,10 +2080,10 @@ function PlanThankYouPage({ setCurrentStep, orderDetails, setOrderDetails }) {
 // 14. Шаг: какую фигуру вы хотите
 function BodyShapeStep({ desiredShape, setDesiredShape, setAnswers, setCurrentStep }) {
   const options = [
-    { key: "Slim", title: "Стройную", hint: "Тонкая, с плоским животом", img: "/bodyshape/slim.jpg" },
+    { key: "Slim", title: "Стройную", hint: "Изящная, с плоским животом", img: "/bodyshape/slim.jpg" },
     { key: "Toned", title: "Подтянутую", hint: "С небольшой мышечной массой", img: "/bodyshape/toned.jpg" },
     { key: "Curvy", title: "С изгибами", hint: "Округлая женственная", img: "/bodyshape/curved.jpg" },
-    { key: "Athletic", title: "Спортивную", hint: "Спортивная с мышцами", img: "/bodyshape/athletic.jpg" },
+    { key: "Athletic", title: "Спортивную", hint: "С выраженными мышцами", img: "/bodyshape/athletic.jpg" },
   ]
 
   return (
@@ -2762,9 +2764,8 @@ function QuizQuestion({ currentQuizStep, showFact, showLifestyleSummary, showAtt
           <CardContent className="p-4 sm:p-6">
             <div className="text-center mb-6"> {/* Отступ был mb-8, стал mb-6 */}
               {/* Заголовок секции стал меньше и отступ под ним тоже */}
-              <h2 className="font-semibold text-green-600 text-lg mb-3">{getSectionTitle()}</h2>
-              {/* Сам вопрос стал меньше */}
-              <h3 className="font-medium text-gray-800 leading-snug text-base">{question.question}</h3>
+              <h2 className="font-semibold text-green-600 text-xl sm:text-lg mb-3">{getSectionTitle()}</h2>
+              <h3 className="font-medium text-gray-800 leading-snug text-lg sm:text-base">{question.question}</h3>
               <p className="text-xs text-gray-500 mt-2">(Выберите наиболее близкий вариант)</p>
             </div>
 
@@ -2786,8 +2787,8 @@ function QuizQuestion({ currentQuizStep, showFact, showLifestyleSummary, showAtt
                         }
                       `}
                     >
-                      <div className="text-2xl">{option.emoji}</div>
-                      <span className="text-gray-700 flex-1">{option.text}</span>
+                      <div className="text-xl sm:text-2xl">{option.emoji}</div>
+                      <span className="text-sm sm:text-base text-gray-700 flex-1">{option.text}</span>
                     </div>
                     {/* 👇 ИЗМЕНЕНИЕ: СТАРЫЙ БЛОК ТЕПЕРЬ ВИДЕН ТОЛЬКО НА ДЕСКТОПАХ */}
                     {isSelected && insightData && (
@@ -2815,8 +2816,8 @@ function QuizQuestion({ currentQuizStep, showFact, showLifestyleSummary, showAtt
                 className={`flex items-center gap-4 p-4 border-2 rounded-3xl cursor-pointer transition-all border-gray-200 hover:border-green-300 hover:bg-green-50`}
                 style={{ pointerEvents: showConfirmation ? 'none' : 'auto' }}
               >
-                <div className="text-2xl">🤔</div>
-                <span className="text-gray-700 flex-1">Другое</span>
+                <div className="text-xl sm:text-2xl">🤔</div>
+                <span className="text-sm sm:text-base text-gray-700 flex-1">Другое</span>
               </div>
             </div>
 
@@ -3089,7 +3090,7 @@ function OfferPage({
     }, 1500);
   };
 
-  const userGoal = finalGoals.length > 0 ? finalGoals[0] : "Начала бы жить"; const dynamicTitlePart = (motivationContent[userGoal]?.title || "Ваш путь к мечте").replace("Вот как", "Ваш путь к тому, чтобы"); const dynamicHeadline = `${dynamicTitlePart} — начинается здесь.`; const buildSubtitle = () => { const parts = new Set<string>(); if (eatingProfileSummaryKey) parts.add(subtitleKeywords.eating[eatingProfileSummaryKey]); if (lifestyleProfileSummaryKey) parts.add(subtitleKeywords.lifestyle[lifestyleProfileSummaryKey]); if (attemptsProfileSummaryKey) parts.add(subtitleKeywords.attempts[attemptsProfileSummaryKey]); return Array.from(parts).join(', '); }; const getWhyItSuitsYouPoints = () => { const points = []; if (eatingProfileSummaryKey) points.push(whyItSuitsYouMapping.eating[eatingProfileSummaryKey]); if (lifestyleProfileSummaryKey) points.push(whyItSuitsYouMapping.lifestyle[lifestyleProfileSummaryKey]); if (attemptsProfileSummaryKey) points.push(whyItSuitsYouMapping.attempts[attemptsProfileSummaryKey]); return points; }; const whyItSuitsYouPoints = getWhyItSuitsYouPoints(); let effectKey: keyof typeof comprehensiveEffectContent = 'mixed'; if (eatingProfileSummaryKey === 'a' && lifestyleProfileSummaryKey === 'a' && attemptsProfileSummaryKey === 'a') { effectKey = 'all_a'; } else if (eatingProfileSummaryKey === 'b' && lifestyleProfileSummaryKey === 'b' && attemptsProfileSummaryKey === 'b') { effectKey = 'all_b'; } else if (eatingProfileSummaryKey === 'c' && lifestyleProfileSummaryKey === 'c' && attemptsProfileSummaryKey === 'c') { effectKey = 'all_c'; } const dynamicEffectText = comprehensiveEffectContent[effectKey]; const getSafetyKey = () => { const conditions = (miniQuizAnswers.conditions as string[]) || []; const meds = (miniQuizAnswers.meds as string) || ''; if (conditions.includes('High blood pressure')) return 'high_pressure'; if (conditions.includes('Prediabetes / type 2 diabetes')) return 'diabetes'; if (meds === 'Hormonal contraceptives') return 'contraceptives'; if (conditions.includes('PCOS')) return 'pcos'; return 'default'; }; const dynamicSafetyText = safetyContent[getSafetyKey()]; const objections = [{ icon: Leaf, title: "100% натуральный состав", text: "Только растительные компоненты — без гормонов, химии и привыкания. Это особенно важно, если вы ищете безопасное решение." }, { icon: HeartPulse, title: "Безопасно и совместимо", text: dynamicSafetyText }, { icon: ThumbsUp, title: "Комплексный эффект", text: dynamicEffectText }, { icon: Check, title: "Гарантированные результаты", text: "При соблюдении всех рекомендаций вы начинаете видеть изменения уже через 7–10 дней, что подтверждается отзывами наших клиенток." },]; const dynamicPlanList = React.useMemo(() => { const list = []; if (eatingProfileSummaryKey && planContentDatabase.eating[eatingProfileSummaryKey]) { list.push(planContentDatabase.eating[eatingProfileSummaryKey]); } if (lifestyleProfileSummaryKey && planContentDatabase.lifestyle[lifestyleProfileSummaryKey]) { list.push(planContentDatabase.lifestyle[lifestyleProfileSummaryKey]); } if (attemptsProfileSummaryKey && planContentDatabase.attempts[attemptsProfileSummaryKey]) { list.push(planContentDatabase.attempts[attemptsProfileSummaryKey]); } return list.length > 0 ? list : ["Простые и сытные перуанские блюда на 20-30 минут."]; }, [eatingProfileSummaryKey, lifestyleProfileSummaryKey, attemptsProfileSummaryKey]); const dynamicHandbookList = React.useMemo(() => { const list = []; if (lifestyleProfileSummaryKey && handbookContentDatabase.lifestyle[lifestyleProfileSummaryKey]) { list.push(handbookContentDatabase.lifestyle[lifestyleProfileSummaryKey]); } if (eatingProfileSummaryKey && handbookContentDatabase.eating[eatingProfileSummaryKey]) { list.push(handbookContentDatabase.eating[eatingProfileSummaryKey]); } if (desiredShape && shapeMapping[desiredShape]) { list.push(`Конкретные шаги, как прийти к <strong>${shapeMapping[desiredShape].toLowerCase()}</strong> фигуре.`); } else { list.push("Советы по достижению фигуры вашей мечты."); } return list; }, [eatingProfileSummaryKey, lifestyleProfileSummaryKey, desiredShape]);
+  const userGoal = finalGoals.length > 0 ? finalGoals[0] : "Начала бы жить"; const dynamicTitlePart = (motivationContent[userGoal]?.title || "Ваш путь к мечте").replace("Вот как", "Ваш путь к тому, чтобы"); const dynamicHeadline = `${dynamicTitlePart} — начинается здесь.`; const buildSubtitle = () => { const parts = new Set<string>(); if (eatingProfileSummaryKey) parts.add(subtitleKeywords.eating[eatingProfileSummaryKey]); if (lifestyleProfileSummaryKey) parts.add(subtitleKeywords.lifestyle[lifestyleProfileSummaryKey]); if (attemptsProfileSummaryKey) parts.add(subtitleKeywords.attempts[attemptsProfileSummaryKey]); return Array.from(parts).join(', '); }; const getWhyItSuitsYouPoints = () => { const points = []; if (eatingProfileSummaryKey) points.push(whyItSuitsYouMapping.eating[eatingProfileSummaryKey]); if (lifestyleProfileSummaryKey) points.push(whyItSuitsYouMapping.lifestyle[lifestyleProfileSummaryKey]); if (attemptsProfileSummaryKey) points.push(whyItSuitsYouMapping.attempts[attemptsProfileSummaryKey]); return points; }; const whyItSuitsYouPoints = getWhyItSuitsYouPoints(); let effectKey: keyof typeof comprehensiveEffectContent = 'mixed'; if (eatingProfileSummaryKey === 'a' && lifestyleProfileSummaryKey === 'a' && attemptsProfileSummaryKey === 'a') { effectKey = 'all_a'; } else if (eatingProfileSummaryKey === 'b' && lifestyleProfileSummaryKey === 'b' && attemptsProfileSummaryKey === 'b') { effectKey = 'all_b'; } else if (eatingProfileSummaryKey === 'c' && lifestyleProfileSummaryKey === 'c' && attemptsProfileSummaryKey === 'c') { effectKey = 'all_c'; } const dynamicEffectText = comprehensiveEffectContent[effectKey]; const getSafetyKey = () => { const conditions = (miniQuizAnswers.conditions as string[]) || []; const meds = (miniQuizAnswers.meds as string) || ''; if (conditions.includes('High blood pressure')) return 'high_pressure'; if (conditions.includes('Prediabetes / type 2 diabetes')) return 'diabetes'; if (meds === 'Hormonal contraceptives') return 'contraceptives'; if (conditions.includes('PCOS')) return 'pcos'; return 'default'; }; const dynamicSafetyText = safetyContent[getSafetyKey()]; const objections = [{ icon: Leaf, title: "100% натуральный состав", text: "Только растительные компоненты — без гормонов, химии и привыкания. Это особенно важно, если вы ищете безопасное решение." }, { icon: HeartPulse, title: "Безопасно и совместимо", text: dynamicSafetyText }, { icon: ThumbsUp, title: "Комплексный эффект", text: dynamicEffectText }, { icon: Check, title: "Гарантированные результаты", text: "При соблюдении всех рекомендаций вы начинаете видеть изменения уже через 7–10 дней, что подтверждается отзывами наших пользователей." },]; const dynamicPlanList = React.useMemo(() => { const list = []; if (eatingProfileSummaryKey && planContentDatabase.eating[eatingProfileSummaryKey]) { list.push(planContentDatabase.eating[eatingProfileSummaryKey]); } if (lifestyleProfileSummaryKey && planContentDatabase.lifestyle[lifestyleProfileSummaryKey]) { list.push(planContentDatabase.lifestyle[lifestyleProfileSummaryKey]); } if (attemptsProfileSummaryKey && planContentDatabase.attempts[attemptsProfileSummaryKey]) { list.push(planContentDatabase.attempts[attemptsProfileSummaryKey]); } return list.length > 0 ? list : ["Простые и сытные перуанские блюда на 20-30 минут."]; }, [eatingProfileSummaryKey, lifestyleProfileSummaryKey, attemptsProfileSummaryKey]); const dynamicHandbookList = React.useMemo(() => { const list = []; if (lifestyleProfileSummaryKey && handbookContentDatabase.lifestyle[lifestyleProfileSummaryKey]) { list.push(handbookContentDatabase.lifestyle[lifestyleProfileSummaryKey]); } if (eatingProfileSummaryKey && handbookContentDatabase.eating[eatingProfileSummaryKey]) { list.push(handbookContentDatabase.eating[eatingProfileSummaryKey]); } if (desiredShape && shapeMapping[desiredShape]) { list.push(`Конкретные шаги, как прийти к <strong>${shapeMapping[desiredShape].toLowerCase()}</strong> фигуре.`); } else { list.push("Советы по достижению фигуры вашей мечты."); } return list; }, [eatingProfileSummaryKey, lifestyleProfileSummaryKey, desiredShape]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-peach-50 p-4">
@@ -3105,7 +3106,28 @@ function OfferPage({
           </h2>
 
           <div className="grid md:grid-cols-2 gap-4">{objections.map(item => (<div key={item.title} className="flex items-start gap-3 bg-green-50/70 p-4 rounded-xl border border-green-100"><item.icon className="w-6 h-6 text-green-600 flex-shrink-0 mt-1" /><div className="min-w-0"><h4 className="font-semibold text-gray-800">{item.title}</h4><p className="text-sm text-gray-600">{item.text}</p></div></div>))}</div>
-          <div className="pt-6 grid md:grid-cols-2 gap-8 items-center"><div className="bg-gray-100 rounded-xl aspect-square w-full flex items-center justify-center"><Image src="/1.jpg" alt="Esbelita Natural bottle" width={400} height={400} className="object-contain" /></div><div className="space-y-4"><h3 className="font-bold text-xl text-gray-800">Ключевые факты о "Esbelita Natural":</h3><ul className="space-y-3"><li className="grid grid-cols-[auto_1fr] gap-x-3 items-start"><CheckCircle2 className="w-5 h-5 text-green-600 mt-1" /><span className="text-gray-700">Разработано в Перу с учетом местных особенностей питания и образа жизни.</span></li><li className="grid grid-cols-[auto_1fr] gap-x-3 items-start"><CheckCircle2 className="w-5 h-5 text-green-600 mt-1" /><span className="text-gray-700">Не "сжигает" жир принудительно, а помогает организму мягко нормализовать обмен веществ.</span></li><li className="grid grid-cols-[auto_1fr] gap-x-3 items-start"><CheckCircle2 className="w-5 h-5 text-green-600 mt-1" /><span className="text-gray-700">Прошел добровольную сертификацию качества и безопасности.</span></li><li className="grid grid-cols-[auto_1fr] gap-x-3 items-start"><CheckCircle2 className="w-5 h-5 text-green-600 mt-1" /><span className="text-gray-700">Всего 2 капсулы в день для эффективной поддержки вашего плана питания.</span></li></ul></div></div>
+          <div className="pt-6 grid md:grid-cols-2 gap-8 items-center">
+            <div className="bg-gray-100 rounded-xl aspect-square w-full flex items-center justify-center">
+              <Image src="/1.jpg" alt="Esbelita Natural bottle" width={400} height={400} className="object-contain" />
+            </div>
+            <div className="space-y-4">
+              <h3 className="font-bold text-xl text-gray-800">Ключевые факты о "Esbelita Natural":</h3>
+              <ul className="space-y-3">
+                <li className="grid grid-cols-[auto_1fr] gap-x-3 items-start"><CheckCircle2 className="w-5 h-5 text-green-600 mt-1" />
+                  <span className="text-gray-700">Разработано в Перу с учетом местных особенностей питания и образа жизни.</span>
+                </li>
+                <li className="grid grid-cols-[auto_1fr] gap-x-3 items-start"><CheckCircle2 className="w-5 h-5 text-green-600 mt-1" />
+                  <span className="text-gray-700">Не "сжигает" жир принудительно, а помогает организму мягко нормализовать обмен веществ.</span>
+                </li>
+                <li className="grid grid-cols-[auto_1fr] gap-x-3 items-start"><CheckCircle2 className="w-5 h-5 text-green-600 mt-1" />
+                  <span className="text-gray-700">Прошел добровольную сертификацию качества и безопасности.</span>
+                </li>
+                <li className="grid grid-cols-[auto_1fr] gap-x-3 items-start"><CheckCircle2 className="w-5 h-5 text-green-600 mt-1" />
+                  <span className="text-gray-700">Всего 2 капсулы в день для эффективной поддержки вашего плана питания.</span>
+                </li>
+              </ul>
+            </div>
+          </div>
           <div className="pt-4"><h3 className="text-xl font-bold text-gray-900 mb-4 text-center">Почему этот подход подходит именно вам</h3><div className="grid grid-cols-1 md:grid-cols-3 gap-4">{whyItSuitsYouPoints.map((point, index) => (<div key={index} className="bg-gray-50 border border-gray-200 rounded-xl p-4 text-center"><p className="text-sm font-semibold text-gray-500 uppercase tracking-wide">Ваша проблема</p><p className="text-base font-bold text-gray-800 my-2">{point.problem}</p><div className="w-16 h-[1px] bg-green-200 mx-auto my-3"></div><p className="text-sm font-semibold text-green-600 uppercase tracking-wide">Наше решение</p><p className="text-sm text-gray-700 mt-2">{point.solution}</p></div>))}</div></div>
 
           <div className="text-center">
@@ -3123,18 +3145,16 @@ function OfferPage({
             {variant === 'simplified' && (
               <div className="text-center bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-4">
                 <p className="text-sm text-gray-600">Ваша <b>единоразовая скидка 50%</b> действительна в течение:</p>
-                <div className="text-3xl font-bold font-mono text-gray-800 mt-1 tracking-wider">{formattedTime}</div>
+                <div className={`text-3xl font-bold font-mono mt-1 tracking-wider transition-colors ${timer < 420 ? 'text-red-600' : 'text-gray-800'}`}>{formattedTime}</div>
               </div>
             )}
             <div className="border-t border-b border-gray-200 py-3 text-center">
               <div className="flex justify-center items-baseline gap-2 font-semibold">
                 <span className="text-gray-800 text-base sm:text-lg">Итоговая цена:</span>
-                
-                {/* 🔥 ИЗМЕНЕНИЕ: Зачеркнутая цена видна ТОЛЬКО для 'full' варианта */}
-                {variant === 'full' && (
-                  <span className="text-gray-400 line-through text-lg sm:text-xl">199 PEN</span>
-                )}
-                
+
+                {/* Зачеркнутая цена теперь большая и видна в обоих вариантах */}
+                <span className="text-gray-400 line-through text-2xl">199 PEN</span>
+
                 <span className="text-green-700 text-2xl sm:text-3xl">99 PEN</span>
                 <span className="text-gray-500 text-sm sm:text-base">(≈3.3 PEN/день)</span>
               </div>
@@ -3144,7 +3164,17 @@ function OfferPage({
           {variant === 'full' ? (
             <form ref={orderFormRef} id="order-form" className="space-y-4" onSubmit={handleOrderSubmit}>
               <h3 className="text-lg sm:text-xl font-bold text-center text-gray-800">Куда отправить план и подтверждение заказа?</h3>
-              <div><label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">Полное имя *</label><input id="name" name="name" required value={formName} onChange={(e) => setFormName(e.target.value)} className="w-full px-4 py-3 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 text-base placeholder:text-base" placeholder="Введите ваше имя" /></div><div><label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">Номер телефона *</label><IMaskInput mask="+{51} (000) 000-000" radix="." id="phone" name="phone" required value={formPhone} onAccept={(value) => setFormPhone(value as string)} className="w-full px-4 py-3 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 text-base placeholder:text-base" placeholder="+51 (___) ___-___" type="tel" /></div><div><label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">Email (опционально)</label><input id="email" name="email" type="email" value={formEmail} onChange={(e) => { setFormEmail(e.target.value); if (emailError) setEmailError(''); }} onBlur={() => { if (formEmail && !formEmail.includes('@')) { setEmailError('Пожалуйста, введите корректный email с символом "@"'); } else { setEmailError(''); } }} className={`w-full px-4 py-3 border rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 text-base placeholder:text-base transition-colors ${emailError ? 'border-red-500' : 'border-gray-300'}`} placeholder="Если WhatsApp неудобен" />{emailError && <p className="mt-2 text-xs text-red-600 pl-4">{emailError}</p>}</div>
+              <div>
+                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">Полное имя *</label>
+                <input id="name" name="name" required value={formName} onChange={(e) => setFormName(e.target.value)} className="w-full px-4 py-3 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 text-base placeholder:text-base" placeholder="Введите ваше имя" />
+              </div>
+              <div>
+                <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">Номер телефона *</label>
+                <IMaskInput mask="+{51} (000) 000-000" radix="." id="phone" name="phone" required value={formPhone} onAccept={(value) => setFormPhone(value as string)} className="w-full px-4 py-3 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 text-base placeholder:text-base" placeholder="+51 (___) ___-___" type="tel" />
+              </div>
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">Email (опционально)</label><input id="email" name="email" type="email" value={formEmail} onChange={(e) => { setFormEmail(e.target.value); if (emailError) setEmailError(''); }} onBlur={() => { if (formEmail && !formEmail.includes('@')) { setEmailError('Пожалуйста, введите корректный email с символом "@"'); } else { setEmailError(''); } }} className={`w-full px-4 py-3 border rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 text-base placeholder:text-base transition-colors ${emailError ? 'border-red-500' : 'border-gray-300'}`} placeholder="Если WhatsApp неудобен" />{emailError && <p className="mt-2 text-xs text-red-600 pl-4">{emailError}</p>}
+              </div>
               <div className="pt-2 text-center">
                 <Button type="submit" disabled={isProcessingOrder} className="w-full bg-green-600 hover:bg-green-700 text-white rounded-full py-4 font-semibold text-lg shadow-lg transition-transform transform hover:scale-105 disabled:opacity-75 disabled:cursor-wait">
                   {isProcessingOrder ? (<span className="flex items-center justify-center"><Loader2 className="w-5 h-5 mr-2 animate-spin" />Обработка...</span>) : ("Заказать со скидкой")}
@@ -3172,12 +3202,80 @@ function OfferPage({
             </div>
           )}
 
-          <div className="pt-6"><h3 className="text-xl font-bold text-gray-900 mb-4 text-center">Что говорят наши клиенты</h3><div className="grid grid-cols-1 md:grid-cols-2 gap-4">{testimonials.map((t, i) => { if (t.isExpert) { const IconComponent = t.img; return (<div key={i} className="bg-sky-50 border border-sky-200 rounded-xl p-4 flex flex-col h-full"><div className="flex items-center gap-3 mb-2">{IconComponent && <IconComponent className="w-6 h-6 text-sky-600 flex-shrink-0" />}<p className="font-semibold text-gray-800 text-sm">{t.name}</p></div><p className="text-gray-700 italic text-sm flex-grow">“{t.quote}”</p></div>); } else { return (<div key={i} className="bg-green-50/70 border border-green-100 rounded-xl p-4 flex flex-col h-full"><div className="flex justify-between items-center mb-2"><p className="font-semibold text-gray-800 text-sm">{t.name}</p>{t.stars && <StarRating rating={t.stars} />}</div><p className="text-gray-700 italic text-sm flex-grow">“{t.quote}”</p></div>); } })}</div></div>
-          <div className="pt-6"><div className="bg-gray-50 border border-gray-200 rounded-2xl p-6"><h3 className="text-xl font-bold text-gray-900 mb-4 text-center">Прозрачность и безопасность</h3><div className="space-y-4 divide-y divide-gray-200"><div className="pt-4 first:pt-0"><h4 className="font-semibold text-gray-800 flex items-start sm:items-center gap-2"><Leaf className="w-5 h-5 text-green-600 flex-shrink-0" />Из чего состоит Esbelita Natural:</h4><ul className="list-disc list-inside text-gray-600 mt-2 pl-4 text-sm space-y-2"><li>L-Карнитин тартрат (150мг): Ускоряет транспортировку жиров.</li><li>Экстракт зеленого чая (100мг): Мощный антиоксидант.</li><li>Экстракт гуараны (75мг): Природный источник энергии.</li><li>Яблочный уксус (50мг): Помогает контролировать сахар.</li><li>Экстракт африканского манго (50мг): Снижает аппетит.</li></ul></div><div className="pt-4"><h4 className="font-semibold text-gray-800 flex items-start sm:items-center gap-2"><ShieldCheck className="w-5 h-5 text-green-600 flex-shrink-0" />Сертификаты и регистрации:</h4><p className="text-gray-600 mt-2 text-sm">Продукт имеет добровольный сертификат соответствия. <a href="#" className="text-green-600 underline">Скачать PDF</a></p><p className="text-gray-600 mt-1 text-sm">Регистрационный номер: P2998419N/NAESBM</p></div></div><p className="text-xs text-gray-500 mt-4 text-center">*Не является лекарственным средством. Перед применением рекомендуется проконсультироваться с врачом.</p></div></div>
-          <div className="pt-6"><h3 className="text-xl font-bold text-gray-900 mb-4 text-center">Часто задаваемые вопросы</h3><div className="space-y-3 text-gray-700 text-xs"><details className="rounded-xl border border-gray-200 p-2"><summary className="cursor-pointer font-medium">Нужно ли соблюдать жесткую диету?</summary><p className="mt-2">Нет. Комплекс и план питания созданы, чтобы вы худели без стресса и срывов. План предлагает сытные и простые блюда, а капсулы помогают снизить тягу к вредному. Вам не придется голодать.</p></details><details className="rounded-xl border border-gray-200 p-2"><summary className="cursor-pointer font-medium">Я боюсь что эффект временнный, а вес вернется</summary><p className="mt-2">Наш подход нацелен на изменение привычек и нормализацию обмена веществ, а не на быструю потерю воды. Это создает устойчивый результат. Памятка по привычкам поможет вам закрепить его после окончания курса.</p></details><details className="rounded-xl border border-gray-200 p-2"><summary className="cursor-pointer font-medium">Я могу купить потом или в магазине?</summary><p className="mt-2">Это специальное предложение — скидка 50% и бесплатные бонусы — доступно только здесь и сейчас в благодарность за прохождение опроса. В магазинах продукт не продается.</p></details><details className="rounded-xl border border-gray-200 p-2"><summary className="cursor-pointer font-medium">Слишком хорошо звучит, в чем подвох?</summary><p className="mt-2">Подвоха нет. Мы уверены в своем продукте и плане, поэтому готовы предложить лучшие условия тем, кто прошел опрос и серьезно настроен на результат. Ваш успех — наша лучшая реклама.</p></details><details className="rounded-xl border border-gray-200 p-2"><summary className="cursor-pointer font-medium">Как-то дорого</summary><p className="mt-2">Стоимость курса на месяц со скидкой — 99 PEN. Это всего около 3.3 PEN в день, дешевле чашки кофе. За эту цену вы получаете не просто капсулы, а комплексное решение с планом питания и памяткой, что гораздо выгоднее, чем одна консультация у диетолога.</p></details><details className="rounded-xl border border-gray-200 p-2"><summary className="cursor-pointer font-medium">Есть ли противопоказания?</summary><p className="mt-2">Не рекомендуется принимать при беременности, кормлении грудью, а также при индивидуальной непереносимости компонентов. Если у вас есть хронические заболевания, проконсультируйтесь с врачом перед началом курса.</p></details></div></div>
-          <div className="pt-8 text-center bg-gradient-to-t from-green-50 rounded-2xl p-6"><h3 className="text-xl sm:text-2xl font-bold text-gray-800">Вы дочитали до конца. Это значит, вы действительно готовы к переменам.</h3><a href="#order-form" className="inline-block mt-4 bg-green-600 hover:bg-green-700 text-white rounded-full py-2 px-8 sm:py-3 sm:px-12 text-sm sm:text-base font-semibold shadow-lg transition-transform transform hover:scale-105">Да, я готова! Вернуться к форме заказа</a></div>
+          <div className="pt-6">
+            <h3 className="text-xl font-bold text-gray-900 mb-4 text-center">Что говорят клиенты Ebelita</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">{testimonials.map((t, i) => {
+              if (t.isExpert) {
+                const IconComponent = t.img; return (<div key={i} className="bg-sky-50 border border-sky-200 rounded-xl p-4 flex flex-col h-full">
+                  <div className="flex items-center gap-3 mb-2">{IconComponent && <IconComponent className="w-6 h-6 text-sky-600 flex-shrink-0" />}<p className="font-semibold text-gray-800 text-sm">{t.name}</p>
+                  </div>
+                  <p className="text-gray-700 italic text-sm flex-grow">“{t.quote}”</p></div>);
+              } else {
+                return (<div key={i} className="bg-green-50/70 border border-green-100 rounded-xl p-4 flex flex-col h-full">
+                  <div className="flex justify-between items-center mb-2">
+                    <p className="font-semibold text-gray-800 text-sm">{t.name}</p>{t.stars && <StarRating rating={t.stars} />}</div>
+                  <p className="text-gray-700 italic text-sm flex-grow">“{t.quote}”</p>
+                </div>);
+              }
+            })}</div>
+          </div>
+          <div className="pt-6"><div className="bg-gray-50 border border-gray-200 rounded-2xl p-6">
+            <h3 className="text-xl font-bold text-gray-900 mb-4 text-center">Прозрачность и безопасность</h3>
+            <div className="space-y-4 divide-y divide-gray-200">
+              <div className="pt-4 first:pt-0">
+                <h4 className="font-semibold text-gray-800 flex items-start sm:items-center gap-2"><Leaf className="w-5 h-5 text-green-600 flex-shrink-0" />Из чего состоит Esbelita Natural:</h4>
+                <ul className="list-disc list-inside text-gray-600 mt-2 pl-4 text-sm space-y-2">
+                  <li>L-Карнитин тартрат (150мг): Ускоряет транспортировку жиров.</li>
+                  <li>Экстракт зеленого чая (100мг): Мощный антиоксидант.</li>
+                  <li>Экстракт гуараны (75мг): Природный источник энергии.</li>
+                  <li>Яблочный уксус (50мг): Помогает контролировать сахар.</li>
+                  <li>Экстракт африканского манго (50мг): Снижает аппетит.</li>
+                </ul>
+              </div>
+              <div className="pt-4">
+                <h4 className="font-semibold text-gray-800 flex items-start sm:items-center gap-2"><ShieldCheck className="w-5 h-5 text-green-600 flex-shrink-0" />Сертификаты и регистрации:</h4>
+                <p className="text-gray-600 mt-2 text-sm">Продукт имеет добровольный сертификат соответствия. <a href="#" className="text-green-600 underline">Скачать PDF</a></p>
+                <p className="text-gray-600 mt-1 text-sm">Регистрационный номер: P2998419N/NAESBM</p>
+              </div>
+            </div>
+            <p className="text-xs text-gray-500 mt-4 text-center">*Не является лекарственным средством. Перед применением рекомендуется проконсультироваться с врачом.</p>
+          </div>
+          </div>
+          <div className="pt-6"><h3 className="text-xl font-bold text-gray-900 mb-4 text-center">Часто задаваемые вопросы</h3>
+            <div className="space-y-3 text-gray-700 text-sm">
+              <details className="rounded-xl border border-gray-200 p-2">
+                <summary className="cursor-pointer font-medium">Нужно ли соблюдать жесткую диету?</summary>
+                <p className="mt-2">Нет. Комплекс и план питания созданы, чтобы вы худели без стресса и срывов. План предлагает сытные и простые блюда, а капсулы помогают снизить тягу к вредному. Вам не придется голодать.</p>
+              </details>
+              <details className="rounded-xl border border-gray-200 p-2">
+                <summary className="cursor-pointer font-medium">Я боюсь что эффект временнный, а вес вернется</summary>
+                <p className="mt-2">Наш подход нацелен на изменение привычек и нормализацию обмена веществ, а не на быструю потерю воды. Это создает устойчивый результат. Памятка по привычкам поможет вам закрепить его после окончания курса.</p>
+              </details>
+              <details className="rounded-xl border border-gray-200 p-2">
+                <summary className="cursor-pointer font-medium">Я могу купить потом или в магазине?</summary>
+                <p className="mt-2">Это специальное предложение — скидка 50% и бесплатные бонусы — доступно только здесь и сейчас в благодарность за прохождение опроса. В магазинах продукт не продается.</p>
+              </details>
+              <details className="rounded-xl border border-gray-200 p-2">
+                <summary className="cursor-pointer font-medium">Слишком хорошо звучит, в чем подвох?</summary>
+                <p className="mt-2">Подвоха нет. Мы уверены в своем продукте и плане, поэтому готовы предложить лучшие условия тем, кто прошел опрос и серьезно настроен на результат. Ваш успех — наша лучшая реклама.</p>
+              </details>
+              <details className="rounded-xl border border-gray-200 p-2">
+                <summary className="cursor-pointer font-medium">Как-то дорого</summary>
+                <p className="mt-2">Стоимость курса на месяц со скидкой — 99 PEN. Это всего около 3.3 PEN в день, дешевле чашки кофе. За эту цену вы получаете не просто капсулы, а комплексное решение с планом питания и памяткой, что гораздо выгоднее, чем одна консультация у диетолога.</p>
+              </details><details className="rounded-xl border border-gray-200 p-2">
+                <summary className="cursor-pointer font-medium">Есть ли противопоказания?</summary>
+                <p className="mt-2">Не рекомендуется принимать при беременности, кормлении грудью, а также при индивидуальной непереносимости компонентов. Если у вас есть хронические заболевания, проконсультируйтесь с врачом перед началом курса.</p>
+              </details>
+            </div>
+          </div>
+          <div className="pt-8 text-center bg-gradient-to-t from-green-50 rounded-2xl p-6">
+            <h3 className="text-xl sm:text-2xl font-bold text-gray-800">Вы дочитали до конца. Это значит, вы действительно готовы к переменам.</h3>
+            <a href="#order-form" className="inline-block mt-4 bg-green-600 hover:bg-green-700 text-white rounded-full py-2 px-8 sm:py-3 sm:px-12 text-sm sm:text-base font-semibold shadow-lg transition-transform transform hover:scale-105">Да, я готова! Вернуться к форме заказа</a>
+          </div>
         </div>
-        <footer className="text-center text-sm text-gray-500 py-10"><p className="text-xs text-gray-400">Этот продукт не был оценен DIGEMID. Индивидуальные результаты могут отличаться. Не заменяет консультацию врача.</p></footer>
+        <footer className="text-center text-sm text-gray-500 py-10">
+          <p className="text-xs text-gray-400">Этот продукт не был оценен DIGEMID. Индивидуальные результаты могут отличаться. Не заменяет консультацию врача.</p>
+        </footer>
       </div>
     </div>
   );
